@@ -1,0 +1,89 @@
+<html>
+<head>
+<meta name="referrer" content="no-referrer" />
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+<script
+	src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular.min.js"></script>
+<script src="../js/lib/angular-datatables.min.js"></script>
+<script src="../js/lib/jquery.dataTables.min.js"></script>
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+<link rel="stylesheet" href="../css/lib/datatables.bootstrap.css">
+</head>
+<body ng-app="TestAppAdmin" ng-controller="adminController">
+
+	<div class="container">
+		<h1>Order management Demo : Admin page</h1>
+		<div>
+			<form name="orderForm" ng-show="showEditForm">
+				<table>
+					<tr align="center">
+						<th colspan="2">Update order</th>
+					</tr>
+					<tr>
+						<td>Description :</td>
+						<td><textarea ng-model="order.description" id="orderDesc"
+								rows="4" cols="50" ng-required="true"></textarea></td>
+					</tr>
+					<tr>
+						<td>Address :</td>
+						<td><input type="text" ng-model="order.address"
+							id="orderAddress" ng-required="true" style="width: 422px;" /></td>
+					</tr>
+					<tr>
+						<td>Phone number :</td>
+						<td><input type="text" ng-model="order.phone" id="orderPhone"
+							ng-required="true" /></td>
+					</tr>
+					<tr>
+						<td>Status :</td>
+						<td><select ng-model="order.status"
+							ng-selected="order.status"
+							ng-init="statuses=['accepted','in-kitchen','on-the-way','delivered']"
+							ng-options="item for item in statuses">
+						</select><br></td>
+					</tr>
+					<tr>
+						<td><input type="hidden" ng-model="order.id" id="orderId"></td>
+						<td><button type="button" class="btn btn-default btn"
+								ng-click="save();">Update Order</button></td>
+					</tr>
+				</table>
+
+				<!--  -->
+			</form>
+		</div>
+		<table class="table table-striped table-ordered" datatable="ng"
+			dt-options="vm.dtOptions">
+			<caption>Customer Orders</caption>
+			<thead>
+				<tr>
+					<th>Sr</th>
+					<th>Description</th>
+					<th>Status</th>
+					<th>Address & phone no.</th>
+					<th>Date</th>
+					<th>Ordered By</th>
+					<th>Updated By</th>
+					<th>Action</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr ng-repeat="order in orders">
+					<td>{{$index + 1}}</td>
+					<td>{{order.description}}</td>
+					<td>{{order.status}}</td>
+					<td>{{order.address+'- Phone:'+order.phone}}</td>
+					<td>{{order.createdAt}}</td>
+					<td>{{order.orderBy}}</td>
+					<td>{{order.updatedBy}}</td>
+					<td><button type="button" class="btn btn-default btn" ng-click="edit(order.id);"><i class="glyphicon glyphicon-pencil"></i></button></td>
+
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</body>
+</html>
+<script src="../js/app/orderMgmntAdminAngularController.js"></script>
